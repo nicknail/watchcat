@@ -1,5 +1,7 @@
 <template>
-  <div class="flex 2xl:w-screen 2xl:h-screen text-center justify-center items-center overflow-x-hidden">
+  <div
+    class="flex 2xl:w-screen 2xl:h-screen text-center justify-center items-center overflow-x-hidden"
+  >
     <div class="flex flex-col 2xl:flex-row items-center">
       <img class="w-80" src="https://cataas.com/cat" alt="Cat" />
       <div class="m-8 flex flex-col items-center">
@@ -8,7 +10,7 @@
           <input
             class="w-96 p-2 border-2 rounded-md text-3xl text-neutral-400"
             type="text"
-            :value="true_date(-true_value)"
+            :value="true_value(true_date(), -1)"
             disabled
           />
         </div>
@@ -39,28 +41,28 @@
               type="number"
               min="0"
               placeholder="Дни"
-              v-model="values.days"
+              v-model="amount.days"
             />
             <input
               class="w-40 m-2 p-2 border-2 rounded-md border-neutral-400 text-neutral-600 text-2xl"
               type="number"
               min="0"
               placeholder="Часы"
-              v-model="values.hours"
+              v-model="amount.hours"
             />
             <input
               class="w-40 m-2 p-2 border-2 rounded-md border-neutral-400 text-neutral-600 text-2xl"
               type="number"
               min="0"
               placeholder="Минуты"
-              v-model="values.minutes"
+              v-model="amount.minutes"
             />
             <input
               class="w-40 m-2 p-2 border-2 rounded-md border-neutral-400 text-neutral-600 text-2xl"
               type="number"
               min="0"
               placeholder="Секунды"
-              v-model="values.seconds"
+              v-model="amount.seconds"
             />
           </div>
         </div>
@@ -70,46 +72,47 @@
           <input
             class="w-96 p-2 border-2 rounded-md text-3xl text-neutral-400"
             type="text"
-            :value="true_date(true_value)"
+            :value="true_value(true_date(), 1)"
             disabled
           />
         </div>
       </div>
-      <img
-        class="w-80"
-        src="https://cataas.com/cat?tag=."
-        alt="Cat"
-      />
+      <img class="w-80" src="https://cataas.com/cat?tag=." alt="Cat" />
     </div>
   </div>
 </template>
 
 <script setup>
-const type = ref("text");
-const date = ref(new Date().toLocaleString());
+const dayjs = useDayjs();
+const template = [
+  "DD.MM.YYYY, HH:mm:ss",
+  "en",
+  "ru",
+  "DD.MM.YYYY, HH:mm",
+  "HH:mm:ss",
+  "HH:mm",
+];
 
-const values = ref({
+const type = ref("text");
+const date = ref(dayjs().format(template[0]));
+
+const amount = ref({
   days: null,
   hours: null,
   minutes: null,
   seconds: null,
 });
-const factors = {
-  days: 1000 * 60 * 60 * 24,
-  hours: 1000 * 60 * 60,
-  minutes: 1000 * 60,
-  seconds: 1000,
+
+const true_date = () => {
+  return dayjs(date.value, type.value === "text" && template);
 };
 
-const true_value = computed(() => {
-  return (
-    values.value.days * factors.days +
-    values.value.hours * factors.hours +
-    values.value.minutes * factors.minutes +
-    values.value.seconds * factors.seconds
-  );
-});
-const true_date = (amount) => {
-  return new Date(new Date(date.value).getTime() + amount).toLocaleString();
+const true_value = (date, factor) => {
+  return date
+    .add(amount.value.days * factor, "days")
+    .add(amount.value.hours * factor, "hours")
+    .add(amount.value.minutes * factor, "minutes")
+    .add(amount.value.seconds * factor, "seconds")
+    .format(template[0]);
 };
 </script>

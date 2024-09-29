@@ -7,5 +7,10 @@ export default defineNuxtConfig({
     }
   },
   compatibilityDate: '2024-04-03',
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', 'dayjs-nuxt'],
+  dayjs: {
+    locales: ['en', 'ru'],
+    defaultLocale: 'ru',
+    plugins: ['customParseFormat'],
+  }
 })
