@@ -3,12 +3,12 @@
     class="flex 2xl:w-screen 2xl:h-screen text-center justify-center items-center overflow-x-hidden"
   >
     <div class="flex flex-col 2xl:flex-row items-center">
-      <img class="w-80" src="https://cataas.com/cat" alt="Cat" />
+      <img class="w-80 hidden 2xl:block" src="https://cataas.com/cat" alt="Cat" />
       <div class="m-8 flex flex-col items-center">
         <div class="mb-16 flex flex-col justify-between">
           <h1 class="mb-4 text-3xl text-center select-none">Прошлое</h1>
           <input
-            class="w-96 p-2 border-2 rounded-md text-3xl text-neutral-400"
+            class="w-96 h-14 p-2 border-2 rounded-md text-3xl text-neutral-400"
             type="text"
             :value="true_value(true_date(), -1)"
             disabled
@@ -20,7 +20,7 @@
 
           <div class="h-36 mb-8 flex flex-col items-center">
             <input
-              class="w-96 p-2 border-2 rounded-md border-neutral-400 text-3xl text-neutral-600"
+              class="w-96 h-14 p-2 border-2 rounded-md border-neutral-400 text-3xl text-neutral-600"
               :type="type"
               v-model="date"
               autofocus
@@ -70,7 +70,7 @@
         <div class="flex flex-col justify-between">
           <h1 class="mb-4 text-3xl text-center select-none">Будущее</h1>
           <input
-            class="w-96 p-2 border-2 rounded-md text-3xl text-neutral-400"
+            class="w-96 h-14 p-2 border-2 rounded-md text-3xl text-neutral-400"
             type="text"
             :value="true_value(true_date(), 1)"
             disabled
